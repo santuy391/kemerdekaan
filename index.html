@@ -1,0 +1,1876 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pendaftaran HUT RI ke-80 (Galeri Tautan)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Merriweather:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" xintegrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9fafb;
+        }
+        .header-title {
+            font-family: 'Merriweather', serif;
+            color: #B91C1C;
+        }
+        .nav-link {
+            @apply px-4 py-2 text-sm font-medium text-gray-700 hover:text-red-700 hover:bg-red-100 rounded-md transition-colors duration-150;
+        }
+        .nav-link-active {
+            @apply px-4 py-2 text-sm font-medium text-red-700 bg-red-100 rounded-md;
+        }
+        .btn-primary {
+            @apply bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-transform duration-150 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed;
+        }
+        .btn-secondary {
+            @apply bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded-lg shadow-md transition-transform duration-150 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed;
+        }
+        .btn-danger {
+            @apply bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-transform duration-150 hover:scale-105;
+        }
+        .card {
+            @apply bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300;
+        }
+        .section-title {
+            @apply text-3xl font-bold text-center mb-8 text-red-700;
+        }
+        .hut-ri-banner {
+            background: linear-gradient(to right, #FF0000, #FFFFFF);
+            color: #B91C1C;
+            padding: 1rem 0;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border-bottom: 5px solid #B91C1C;
+            animation: bannerShine 5s infinite alternate;
+        }
+        @keyframes bannerShine {
+            0% { box-shadow: 0 0 5px #FF0000, 0 0 10px #FF0000; }
+            50% { box-shadow: 0 0 20px #FF5555, 0 0 30px #FF5555; }
+            100% { box-shadow: 0 0 5px #FF0000, 0 0 10px #FF0000; }
+        }
+        .animated-text {
+            animation: colorChange 3s infinite alternate;
+        }
+        @keyframes colorChange {
+            0% { color: #B91C1C; }
+            50% { color: #DC2626; }
+            100% { color: #7F1D1D; }
+        }
+        .tab-button { @apply px-4 py-2 font-medium text-sm leading-5 rounded-md; }
+        .tab-button-active { @apply bg-red-600 text-white; }
+        .tab-button-inactive { @apply text-gray-600 hover:bg-red-100 hover:text-red-700; }
+        
+        .modal { @apply fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center z-50; }
+        .modal-content { @apply bg-white p-8 rounded-lg shadow-xl w-full max-w-md mx-auto; }
+        .modal-content-lg { @apply bg-white p-8 rounded-lg shadow-xl w-full max-w-lg mx-auto; }
+
+        .registration-success-animation { text-align: center; padding: 20px; }
+        .registration-success-animation .checkmark { width: 80px; height: 80px; border-radius: 50%; display: block; stroke-width: 2; stroke: #4CAF50; stroke-miterlimit: 10; margin: 10px auto; box-shadow: inset 0px 0px 0px #4CAF50; animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both; }
+        .registration-success-animation .checkmark__circle { stroke-dasharray: 166; stroke-dashoffset: 166; stroke-width: 2; stroke-miterlimit: 10; stroke: #4CAF50; fill: none; animation: stroke .6s cubic-bezier(0.65, 0, 0.45, 1) forwards; }
+        .registration-success-animation .checkmark__check { transform-origin: 50% 50%; stroke-dasharray: 48; stroke-dashoffset: 48; animation: stroke .3s cubic-bezier(0.65, 0, 0.45, 1) .8s forwards; }
+        @keyframes stroke { 100% { stroke-dashoffset: 0; } }
+        @keyframes scale { 0%, 100% { transform: none; } 50% { transform: scale3d(1.1, 1.1, 1); } }
+        @keyframes fill { 100% { box-shadow: inset 0px 0px 0px 40px #4CAF50; } }
+
+        .toast {
+            @apply fixed bottom-5 right-5 p-4 rounded-md text-white shadow-lg transition-opacity duration-300;
+            opacity: 0;
+            z-index: 1000;
+        }
+        .toast.show { opacity: 1; }
+        .toast-success { @apply bg-green-500; }
+        .toast-error { @apply bg-red-500; }
+        .toast-info { @apply bg-blue-500; }
+
+        .loading-spinner {
+            border: 4px solid #f3f3f3; /* Light grey */
+            border-top: 4px solid #B91C1C; /* Red */
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .loading-text { @apply text-center text-gray-500 my-4; }
+        .social-icon {
+            @apply text-2xl text-white hover:text-gray-300 transition-colors duration-150;
+        }
+        .gallery-link-item {
+             @apply flex items-center justify-between bg-red-50 p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 border border-red-200 hover:border-red-400 group cursor-pointer;
+        }
+        .gallery-link-item span {
+            @apply text-red-700 group-hover:text-red-800 font-medium;
+        }
+        .gallery-link-item i {
+            @apply text-red-500 group-hover:text-red-700;
+        }
+
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <div id="toastNotification" class="toast"></div>
+
+    <header class="bg-white shadow-md sticky top-0 z-40">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex items-center">
+                    <img src="https://placehold.co/60x60/FF0000/FFFFFF?text=RI+80" alt="Logo HUT RI 80" class="h-12 w-12 mr-3 rounded-full">
+                    <h1 class="header-title text-2xl sm:text-3xl font-bold">HUT RI ke-80</h1>
+                </div>
+                <nav class="hidden md:flex space-x-2">
+                    <a href="#" id="navHome" class="nav-link nav-link-active">Halaman Utama</a>
+                    <a href="#" id="navRegister" class="nav-link">Pendaftaran</a>
+                    <a href="#" id="navPanitiaLogin" class="nav-link">Login Panitia</a>
+                    <a href="#" id="navAdminLogin" class="nav-link">Login Admin</a>
+                </nav>
+                <div class="md:hidden">
+                    <button id="mobileMenuButton" class="text-gray-700 hover:text-red-700 focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobileMenu" class="md:hidden hidden bg-white shadow-lg">
+            <a href="#" id="mobileNavHome" class="block px-4 py-3 text-gray-700 hover:bg-red-100 hover:text-red-700">Halaman Utama</a>
+            <a href="#" id="mobileNavRegister" class="block px-4 py-3 text-gray-700 hover:bg-red-100 hover:text-red-700">Pendaftaran</a>
+            <a href="#" id="mobileNavPanitiaLogin" class="block px-4 py-3 text-gray-700 hover:bg-red-100 hover:text-red-700">Login Panitia</a>
+            <a href="#" id="mobileNavAdminLogin" class="block px-4 py-3 text-gray-700 hover:bg-red-100 hover:text-red-700">Login Admin</a>
+        </div>
+    </header>
+
+    <div class="hut-ri-banner">
+        Dirgahayu Republik Indonesia ke-80! Merdeka!
+    </div>
+
+    <main class="container mx-auto p-4 sm:p-6 lg:p-8">
+        <div id="homePage" class="space-y-12">
+            <section class="text-center py-10 bg-gradient-to-r from-red-700 to-red-500 text-white rounded-xl shadow-2xl">
+                <h2 class="text-4xl font-extrabold mb-4 animated-text">Selamat Datang di Perayaan HUT RI ke-80!</h2>
+                <p class="text-lg mb-8 max-w-2xl mx-auto">Mari rayakan semangat kemerdekaan dengan berbagai kegiatan seru dan meriah. Daftarkan diri Anda sekarang!</p>
+                <div>
+                    <button id="btnGoToRegister" class="btn-primary text-lg px-8 py-3 mr-2">Daftar Sekarang!</button>
+                    <button id="btnGoToPanitiaLogin" class="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-3 px-8 rounded-lg shadow-md transition-transform duration-150 hover:scale-105 mr-2">Login Panitia</button>
+                    <button id="btnGoToAdminLogin" class="bg-white hover:bg-gray-100 text-red-700 font-semibold py-3 px-8 rounded-lg shadow-md transition-transform duration-150 hover:scale-105">Login Admin</button>
+                </div>
+            </section>
+
+            <section id="pengumumanSection">
+                <h3 class="section-title">📢 Pengumuman Penting</h3>
+                <div id="pengumumanContainer" class="card bg-yellow-50 border-l-4 border-yellow-400 text-yellow-700 min-h-[50px]">
+                    <div class="loading-spinner hidden"></div>
+                    <div class="content"></div>
+                </div>
+            </section>
+
+            <section id="jadwalSection">
+                <h3 class="section-title">🗓️ Jadwal Kegiatan</h3>
+                <div id="jadwalContainer" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 min-h-[100px]">
+                     <div class="loading-spinner hidden col-span-full"></div>
+                </div>
+            </section>
+
+            <section id="pesertaSection">
+                <h3 class="section-title">👥 Peserta Terdaftar</h3>
+                <div class="overflow-x-auto bg-white rounded-xl shadow-lg">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-red-500 text-white">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Nama</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Kategori</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Lomba</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pesertaTableBody" class="bg-white divide-y divide-gray-200">
+                            <tr><td colspan="4" class="text-center py-4"><div class="loading-spinner hidden"></div></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="galeriSection">
+                <h3 class="section-title">📸 Tautan Galeri Kegiatan</h3>
+                <div id="galeriContainer" class="space-y-3 max-w-2xl mx-auto min-h-[100px]">
+                    <div class="loading-spinner hidden"></div>
+                </div>
+            </section>
+
+
+            <section id="panitiaSection">
+                <h3 class="section-title">🤝 Panitia Pelaksana</h3>
+                <div id="panitiaContainer" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 min-h-[100px]">
+                    <div class="loading-spinner hidden col-span-full"></div>
+                </div>
+            </section>
+
+            <section id="timelineSection">
+                <h3 class="section-title">📍 Timeline Kegiatan</h3>
+                <div id="timelineContainer" class="space-y-8 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-red-300 before:to-transparent min-h-[100px]">
+                    <div class="loading-spinner hidden"></div>
+                </div>
+            </section>
+        </div>
+
+        <div id="registrationPage" class="hidden space-y-6 max-w-2xl mx-auto">
+            <h2 class="section-title">📝 Formulir Pendaftaran</h2>
+            <div id="registrationFormContainer" class="card">
+                <form id="formPendaftaran" class="space-y-6">
+                    <div>
+                        <label for="namaPeserta" class="block text-sm font-medium text-gray-700">Nama Lengkap</label>
+                        <input type="text" id="namaPeserta" name="namaPeserta" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm">
+                    </div>
+                    <div>
+                        <label for="kategoriPeserta" class="block text-sm font-medium text-gray-700">Kategori Usia</label>
+                        <select id="kategoriPeserta" name="kategoriPeserta" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm">
+                            <option value="Anak-anak">Anak-anak (s.d. 12 tahun)</option>
+                            <option value="Remaja">Remaja (13-18 tahun)</option>
+                            <option value="Dewasa">Dewasa (19+ tahun)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Lomba yang Diikuti</label>
+                        <div id="lombaCheckboxes" class="mt-2 space-y-2 min-h-[50px]">
+                             <div class="loading-spinner hidden"></div>
+                        </div>
+                    </div>
+                    <button type="submit" id="btnSubmitPendaftaran" class="w-full btn-primary">Daftar</button>
+                </form>
+            </div>
+            <div id="registrationSuccessMessage" class="hidden registration-success-animation">
+                <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                    <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+                    <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                </svg>
+                <h3 class="text-2xl font-semibold text-green-600 mt-4">Pendaftaran Berhasil!</h3>
+                <p class="text-gray-600">Terima kasih telah mendaftar. Sampai jumpa di perayaan!</p>
+                <button id="backToHomeFromRegister" class="mt-6 btn-secondary">Kembali ke Halaman Utama</button>
+            </div>
+        </div>
+
+        <div id="panitiaLoginPage" class="hidden space-y-6 max-w-md mx-auto">
+            <div id="panitiaLoginSection" class="card">
+                <h2 class="text-2xl font-bold text-center text-yellow-600 mb-6">Login Panitia</h2>
+                <form id="panitiaLoginForm" class="space-y-4">
+                    <div>
+                        <label for="panitiaUsername" class="block text-sm font-medium text-gray-700">Username Panitia</label>
+                        <input type="text" id="panitiaUsername" name="panitiaUsername" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm">
+                    </div>
+                    <div>
+                        <label for="panitiaPassword" class="block text-sm font-medium text-gray-700">Password Panitia</label>
+                        <input type="password" id="panitiaPassword" name="panitiaPassword" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm">
+                    </div>
+                    <button type="submit" id="btnPanitiaLogin" class="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded-lg">Login</button>
+                    <p id="panitiaLoginError" class="text-red-500 text-sm hidden"></p>
+                </form>
+            </div>
+            <div id="panitiaDashboard" class="hidden card text-center">
+                <h2 class="text-2xl font-bold text-yellow-600 mb-4">Selamat Datang, Panitia <span id="loggedInPanitiaUsername" class="font-bold"></span>!</h2>
+                <p class="text-gray-700">Anda telah berhasil login sebagai panitia.</p>
+                <p class="text-gray-600 mt-2 text-sm">(Fitur khusus panitia akan muncul di sini jika ada)</p>
+                <button id="panitiaLogoutButton" class="mt-6 btn-secondary">Logout Panitia</button>
+            </div>
+        </div>
+
+
+        <div id="adminPage" class="hidden space-y-6">
+            <div id="adminLoginSection" class="max-w-md mx-auto card">
+                <h2 class="text-2xl font-bold text-center text-red-700 mb-6">Login Admin</h2>
+                <form id="adminLoginForm" class="space-y-4">
+                    <div>
+                        <label for="adminUsername" class="block text-sm font-medium text-gray-700">Username</label>
+                        <input type="text" id="adminUsername" name="adminUsername" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm" value="ikhlas">
+                    </div>
+                    <div>
+                        <label for="adminPassword" class="block text-sm font-medium text-gray-700">Password</label>
+                        <input type="password" id="adminPassword" name="adminPassword" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm" value="admin123">
+                    </div>
+                    <button type="submit" id="btnAdminLogin" class="w-full btn-primary">Login</button>
+                    <p id="adminLoginError" class="text-red-500 text-sm hidden"></p>
+                </form>
+            </div>
+
+            <div id="adminDashboard" class="hidden space-y-8">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h2 class="section-title !text-left !mb-0">🛡️ Dashboard Admin</h2>
+                        <p class="text-sm text-gray-600">Logged in as: <span id="adminUsernameDisplay" class="font-semibold"></span></p>
+                        <p class="text-xs text-gray-500">App ID: <span id="appIdDisplay"></span></p>
+                    </div>
+                    <button id="adminLogoutButton" class="btn-secondary">Logout</button>
+                </div>
+                
+                <div class="mb-4 border-b border-gray-200">
+                    <nav class="flex space-x-1 -mb-px overflow-x-auto" aria-label="Tabs">
+                        <button data-tab="adminPeserta" class="admin-tab-button tab-button tab-button-active flex-shrink-0">Peserta</button>
+                        <button data-tab="adminLomba" class="admin-tab-button tab-button tab-button-inactive flex-shrink-0">Lomba</button>
+                        <button data-tab="adminJadwal" class="admin-tab-button tab-button tab-button-inactive flex-shrink-0">Jadwal</button>
+                        <button data-tab="adminPanitia" class="admin-tab-button tab-button tab-button-inactive flex-shrink-0">Panitia</button>
+                        <button data-tab="adminGaleri" class="admin-tab-button tab-button tab-button-inactive flex-shrink-0">Galeri</button>
+                        <button data-tab="adminTimeline" class="admin-tab-button tab-button tab-button-inactive flex-shrink-0">Timeline</button>
+                        <button data-tab="adminPengumuman" class="admin-tab-button tab-button tab-button-inactive flex-shrink-0">Pengumuman</button>
+                        <button data-tab="adminKelolaAkunPanitia" class="admin-tab-button tab-button tab-button-inactive flex-shrink-0">Akun Panitia</button> </nav>
+                </div>
+
+                <div id="adminPeserta" class="admin-content space-y-4">
+                    <h4 class="text-xl font-semibold text-gray-800">Kelola Peserta</h4>
+                    <div class="overflow-x-auto bg-white rounded-xl shadow-lg">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-100">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kategori</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Lomba</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminPesertaTableBody" class="bg-white divide-y divide-gray-200"></tbody>
+                        </table>
+                         <div id="loadingAdminPeserta" class="loading-text p-4"><div class="loading-spinner"></div>Memuat data peserta...</div>
+                    </div>
+                    <div class="card">
+                        <h5 class="text-lg font-medium mb-2">Tambah Peserta Manual</h5>
+                        <form id="adminAddPesertaForm" class="space-y-3">
+                            <input type="text" name="nama" placeholder="Nama Peserta" required class="w-full p-2 border rounded">
+                            <select name="kategori" class="w-full p-2 border rounded">
+                                <option value="Anak-anak">Anak-anak</option>
+                                <option value="Remaja">Remaja</option>
+                                <option value="Dewasa">Dewasa</option>
+                            </select>
+                            <div id="adminLombaCheckboxesPeserta" class="space-y-1 max-h-32 overflow-y-auto border p-2 rounded">
+                                </div>
+                             <select name="status" class="w-full p-2 border rounded">
+                                <option value="Terdaftar">Terdaftar</option>
+                                <option value="Valid">Valid</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Ditolak">Ditolak</option>
+                            </select>
+                            <button type="submit" class="btn-primary">Tambah Peserta</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div id="adminLomba" class="admin-content hidden space-y-4">
+                    <h4 class="text-xl font-semibold text-gray-800">Kelola Lomba</h4>
+                    <form id="adminAddLombaForm" class="flex gap-2">
+                        <input type="text" id="namaLombaBaru" placeholder="Nama Lomba Baru" required class="flex-grow p-2 border rounded-md shadow-sm focus:ring-red-500 focus:border-red-500">
+                        <button type="submit" class="btn-primary">Tambah Lomba</button>
+                    </form>
+                    <ul id="adminLombaList" class="list-none p-0 space-y-2 bg-white p-4 rounded-xl shadow"></ul>
+                    <div id="loadingAdminLomba" class="loading-text p-4"><div class="loading-spinner"></div>Memuat data lomba...</div>
+                </div>
+
+                <div id="adminJadwal" class="admin-content hidden space-y-4">
+                    <h4 class="text-xl font-semibold text-gray-800">Kelola Jadwal Kegiatan</h4>
+                    <form id="adminAddJadwalForm" class="card grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <input type="date" name="tanggal" required class="p-2 border rounded-md shadow-sm">
+                        <input type="time" name="waktu" required class="p-2 border rounded-md shadow-sm">
+                        <input type="text" name="lomba" placeholder="Nama Lomba/Kegiatan" required class="p-2 border rounded-md shadow-sm md:col-span-2">
+                        <input type="text" name="lokasi" placeholder="Lokasi" required class="p-2 border rounded-md shadow-sm">
+                        <input type="text" name="pj" placeholder="Penanggung Jawab" required class="p-2 border rounded-md shadow-sm">
+                        <button type="submit" class="btn-primary md:col-span-2">Tambah Jadwal</button>
+                    </form>
+                    <div id="adminJadwalContainer" class="space-y-3"></div>
+                    <div id="loadingAdminJadwal" class="loading-text p-4"><div class="loading-spinner"></div>Memuat data jadwal...</div>
+                </div>
+                
+                <div id="adminPanitia" class="admin-content hidden space-y-4">
+                    <h4 class="text-xl font-semibold text-gray-800">Kelola Panitia</h4>
+                    <form id="adminAddPanitiaForm" class="card grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <input type="text" name="nama" placeholder="Nama Panitia" required class="p-2 border rounded-md shadow-sm">
+                        <input type="text" name="jabatan" placeholder="Jabatan" required class="p-2 border rounded-md shadow-sm">
+                        <input type="text" name="kontak" placeholder="Kontak (WA/Email)" required class="p-2 border rounded-md shadow-sm">
+                        <input type="url" name="foto" placeholder="URL Foto Panitia" required class="p-2 border rounded-md shadow-sm md:col-span-2">
+                        <button type="submit" class="btn-primary md:col-span-2">Tambah Panitia</button>
+                    </form>
+                    <div id="adminPanitiaContainer" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+                    <div id="loadingAdminPanitia" class="loading-text p-4"><div class="loading-spinner"></div>Memuat data panitia...</div>
+                </div>
+
+                <div id="adminGaleri" class="admin-content hidden space-y-4">
+                    <h4 class="text-xl font-semibold text-gray-800">Kelola Galeri</h4>
+                    <form id="adminAddGaleriForm" class="space-y-3"> <div>
+                            <label for="galeriImageUrl" class="block text-sm font-medium text-gray-700">URL Tautan Galeri</label>
+                            <input type="url" id="galeriImageUrl" name="galeriImageUrl" placeholder="https://photos.app.goo.gl/contoh" required class="mt-1 block w-full p-2 border rounded-md shadow-sm focus:ring-red-500 focus:border-red-500">
+                        </div>
+                        <div>
+                            <label for="galeriImageAlt" class="block text-sm font-medium text-gray-700">Judul/Deskripsi Tautan</label>
+                            <input type="text" id="galeriImageAlt" name="galeriImageAlt" placeholder="Album Foto Lomba XYZ (Google Photos)" required class="mt-1 block w-full p-2 border rounded-md shadow-sm focus:ring-red-500 focus:border-red-500">
+                        </div>
+                        <button type="submit" id="btnSubmitGaleri" class="btn-primary">Tambahkan Tautan</button>
+                    </form>
+                    <div id="adminGaleriContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6"></div>
+                </div>
+
+                <div id="adminTimeline" class="admin-content hidden space-y-4">
+                     <h4 class="text-xl font-semibold text-gray-800">Kelola Timeline</h4>
+                    <form id="adminAddTimelineForm" class="card space-y-3">
+                        <input type="date" name="tanggal" required class="w-full p-2 border rounded-md shadow-sm">
+                        <input type="text" name="judul" placeholder="Judul Timeline" required class="w-full p-2 border rounded-md shadow-sm">
+                        <textarea name="deskripsi" placeholder="Deskripsi Timeline" required rows="3" class="w-full p-2 border rounded-md shadow-sm"></textarea>
+                        <button type="submit" class="btn-primary">Tambah Timeline</button>
+                    </form>
+                    <div id="adminTimelineContainer" class="space-y-3"></div>
+                    <div id="loadingAdminTimeline" class="loading-text p-4"><div class="loading-spinner"></div>Memuat data timeline...</div>
+                </div>
+                
+                <div id="adminPengumuman" class="admin-content hidden space-y-4">
+                    <h4 class="text-xl font-semibold text-gray-800">Kelola Pengumuman</h4>
+                    <form id="adminEditPengumumanForm" class="card space-y-3">
+                        <input type="text" id="pengumumanJudul" placeholder="Judul Pengumuman" required class="w-full p-2 border rounded-md shadow-sm">
+                        <textarea id="pengumumanIsi" placeholder="Isi Pengumuman" required rows="4" class="w-full p-2 border rounded-md shadow-sm"></textarea>
+                        <button type="submit" class="btn-primary">Update Pengumuman</button>
+                         <div id="loadingAdminPengumuman" class="loading-text p-4"><div class="loading-spinner"></div>Memuat data pengumuman...</div>
+                    </form>
+                </div>
+
+                <div id="adminKelolaAkunPanitia" class="admin-content hidden space-y-4">
+                    <h4 class="text-xl font-semibold text-gray-800">Kelola Akun Login Panitia</h4>
+                    <div class="card">
+                        <h5 class="text-lg font-medium mb-2">Tambah Akun Panitia Baru</h5>
+                        <form id="adminAddAkunPanitiaForm" class="space-y-3">
+                            <div>
+                                <label for="newPanitiaUsername" class="block text-sm font-medium text-gray-700">Username Panitia</label>
+                                <input type="text" id="newPanitiaUsername" name="username" required class="mt-1 block w-full p-2 border rounded-md">
+                            </div>
+                            <div>
+                                <label for="newPanitiaPassword" class="block text-sm font-medium text-gray-700">Password Panitia</label>
+                                <input type="password" id="newPanitiaPassword" name="password" required class="mt-1 block w-full p-2 border rounded-md">
+                                <p class="text-xs text-gray-500 mt-1">Password disimpan sebagai teks biasa (tidak aman untuk produksi).</p>
+                            </div>
+                            <button type="submit" class="btn-primary">Tambah Akun Panitia</button>
+                        </form>
+                    </div>
+                    <div>
+                        <h5 class="text-lg font-medium my-4">Daftar Akun Panitia</h5>
+                        <ul id="adminAkunPanitiaListContainer" class="list-none p-0 space-y-2 bg-white p-4 rounded-xl shadow">
+                            </ul>
+                        <div id="loadingAdminAkunPanitia" class="loading-text p-4"><div class="loading-spinner"></div>Memuat akun panitia...</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-red-800 text-white py-10 mt-12">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="font-semibold text-lg mb-2">Panitia HUT RI ke-80</p>
+            <p>Email: <a href="mailto:harikemerdekaan80@gmail.com" class="hover:underline">harikemerdekaan80@gmail.com</a></p>
+            <p>Kontak: <a href="tel:085143025068" class="hover:underline">0851-4302-5068</a></p>
+            <div class="mt-4 flex justify-center space-x-4">
+                <a href="https://www.instagram.com/ikhlas_0302/" target="_blank" rel="noopener noreferrer" aria-label="Instagram Panitia HUT RI ke-80" class="social-icon">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://www.facebook.com/ikhlas.pratama.737" target="_blank" rel="noopener noreferrer" aria-label="Facebook Panitia HUT RI ke-80" class="social-icon">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+            </div>
+            <p class="mt-4 text-sm">&copy; <span id="currentYear"></span> Peringatan HUT RI ke-80. Dirgahayu Indonesia!</p>
+        </div>
+    </footer>
+
+    <div id="deleteConfirmationModal" class="modal hidden">
+        <div class="modal-content">
+            <h3 class="text-lg font-medium leading-6 text-gray-900 mb-2">Konfirmasi Hapus</h3>
+            <p class="text-sm text-gray-500 mb-4" id="deleteModalMessage">Apakah Anda yakin ingin menghapus item ini?</p>
+            <div class="flex justify-end space-x-2">
+                <button id="cancelDeleteButton" class="btn-secondary">Batal</button>
+                <button id="confirmDeleteButton" class="btn-danger">Hapus</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="editModal" class="modal hidden">
+        <div id="editModalContent" class="modal-content-lg">
+            <h3 class="text-lg font-medium leading-6 text-gray-900 mb-4" id="editModalTitle">Edit Item</h3>
+            <form id="editModalForm" class="space-y-4">
+                </form>
+            <div class="mt-6 flex justify-end space-x-2">
+                <button id="cancelEditButton" class="btn-secondary">Batal</button>
+                <button id="saveEditButton" class="btn-primary">Simpan Perubahan</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        // Firebase SDK imports
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { 
+            getAuth, 
+            signOut, 
+            onAuthStateChanged,
+            signInAnonymously
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { 
+            getFirestore, 
+            collection, 
+            doc, 
+            addDoc, 
+            getDoc, 
+            getDocs, 
+            setDoc, 
+            updateDoc, 
+            deleteDoc, 
+            onSnapshot,
+            query, 
+            where, 
+            Timestamp
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        
+        // --- Firebase Configuration ---
+        const firebaseConfigJSON = typeof __firebase_config !== 'undefined' ? __firebase_config : `{
+            "apiKey": "YOUR_API_KEY",
+            "authDomain": "YOUR_AUTH_DOMAIN",
+            "projectId": "YOUR_PROJECT_ID",
+            "storageBucket": "YOUR_STORAGE_BUCKET",
+            "messagingSenderId": "YOUR_MESSAGING_SENDER_ID",
+            "appId": "YOUR_APP_ID"
+        }`;
+        
+        let firebaseConfig;
+        try {
+            firebaseConfig = JSON.parse(firebaseConfigJSON);
+        } catch (e) {
+            console.error("Error parsing Firebase config:", e);
+            showToast("Konfigurasi Firebase tidak valid. Aplikasi mungkin tidak berfungsi dengan benar.", "error", 5000);
+            firebaseConfig = { apiKey: "FALLBACK_API_KEY", authDomain: "FALLBACK_AUTH_DOMAIN", projectId: "FALLBACK_PROJECT_ID" };
+        }
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app); 
+        const db = getFirestore(app);
+
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        
+        let isAdminLoggedIn = false; 
+        let isPanitiaLoggedIn = false; 
+        let loggedInPanitiaUsernameState = null; 
+
+        const ADMIN_USERNAME = "ikhlas";
+        const ADMIN_PASSWORD = "admin123";
+
+        // --- DOM Elements ---
+        const pages = {
+            home: document.getElementById('homePage'),
+            registration: document.getElementById('registrationPage'),
+            admin: document.getElementById('adminPage'),
+            panitiaLogin: document.getElementById('panitiaLoginPage') 
+        };
+        const navLinks = {
+            home: document.getElementById('navHome'),
+            register: document.getElementById('navRegister'),
+            adminLogin: document.getElementById('navAdminLogin'),
+            panitiaLogin: document.getElementById('navPanitiaLogin'), 
+            mobileHome: document.getElementById('mobileNavHome'),
+            mobileRegister: document.getElementById('mobileNavRegister'),
+            mobileAdminLogin: document.getElementById('mobileNavAdminLogin'),
+            mobilePanitiaLogin: document.getElementById('mobileNavPanitiaLogin') 
+        };
+        const mobileMenuButton = document.getElementById('mobileMenuButton');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        const btnGoToRegister = document.getElementById('btnGoToRegister');
+        const btnGoToAdminLogin = document.getElementById('btnGoToAdminLogin');
+        const btnGoToPanitiaLogin = document.getElementById('btnGoToPanitiaLogin'); 
+        const backToHomeFromRegister = document.getElementById('backToHomeFromRegister');
+
+        const jadwalContainer = document.getElementById('jadwalContainer');
+        const pesertaTableBody = document.getElementById('pesertaTableBody');
+        const galeriContainer = document.getElementById('galeriContainer');
+        const panitiaContainer = document.getElementById('panitiaContainer');
+        const timelineContainer = document.getElementById('timelineContainer');
+        const lombaCheckboxesContainer = document.getElementById('lombaCheckboxes');
+        const pengumumanContainer = document.getElementById('pengumumanContainer').querySelector('.content');
+        const pengumumanLoading = document.getElementById('pengumumanContainer').querySelector('.loading-spinner');
+
+        const formPendaftaran = document.getElementById('formPendaftaran');
+        const btnSubmitPendaftaran = document.getElementById('btnSubmitPendaftaran');
+        const registrationFormContainer = document.getElementById('registrationFormContainer');
+        const registrationSuccessMessage = document.getElementById('registrationSuccessMessage');
+
+        const panitiaLoginSection = document.getElementById('panitiaLoginSection');
+        const panitiaDashboard = document.getElementById('panitiaDashboard');
+        const panitiaLoginForm = document.getElementById('panitiaLoginForm');
+        const btnPanitiaLogin = document.getElementById('btnPanitiaLogin');
+        const panitiaLoginError = document.getElementById('panitiaLoginError');
+        const loggedInPanitiaUsername = document.getElementById('loggedInPanitiaUsername');
+        const panitiaLogoutButton = document.getElementById('panitiaLogoutButton');
+
+
+        const adminLoginSection = document.getElementById('adminLoginSection');
+        const adminDashboard = document.getElementById('adminDashboard');
+        const adminLoginForm = document.getElementById('adminLoginForm');
+        const btnAdminLogin = document.getElementById('btnAdminLogin');
+        const adminLoginError = document.getElementById('adminLoginError');
+        const adminLogoutButton = document.getElementById('adminLogoutButton');
+        const adminUsernameDisplay = document.getElementById('adminUsernameDisplay'); 
+        const appIdDisplay = document.getElementById('appIdDisplay');
+
+        const adminTabs = document.querySelectorAll('.admin-tab-button');
+        const adminContents = document.querySelectorAll('.admin-content');
+
+        const adminPesertaTableBody = document.getElementById('adminPesertaTableBody');
+        const adminAddPesertaForm = document.getElementById('adminAddPesertaForm');
+        const adminLombaCheckboxesPeserta = document.getElementById('adminLombaCheckboxesPeserta');
+        
+        const adminAddLombaForm = document.getElementById('adminAddLombaForm');
+        const adminLombaList = document.getElementById('adminLombaList');
+
+        const adminAddJadwalForm = document.getElementById('adminAddJadwalForm');
+        const adminJadwalContainer = document.getElementById('adminJadwalContainer');
+
+        const adminAddPanitiaForm = document.getElementById('adminAddPanitiaForm');
+        const adminPanitiaContainer = document.getElementById('adminPanitiaContainer');
+
+        const adminAddGaleriForm = document.getElementById('adminAddGaleriForm');
+        const adminGaleriContainer = document.getElementById('adminGaleriContainer');
+        const btnSubmitGaleri = document.getElementById('btnSubmitGaleri');
+        
+        const adminAddTimelineForm = document.getElementById('adminAddTimelineForm');
+        const adminTimelineContainer = document.getElementById('adminTimelineContainer');
+
+        const adminEditPengumumanForm = document.getElementById('adminEditPengumumanForm');
+        const pengumumanJudulInput = document.getElementById('pengumumanJudul');
+        const pengumumanIsiInput = document.getElementById('pengumumanIsi');
+
+        const adminAddAkunPanitiaForm = document.getElementById('adminAddAkunPanitiaForm');
+        const adminAkunPanitiaListContainer = document.getElementById('adminAkunPanitiaListContainer');
+        const loadingAdminAkunPanitia = document.getElementById('loadingAdminAkunPanitia');
+
+
+        const loadingIndicatorsPublic = {
+            jadwal: jadwalContainer.querySelector('.loading-spinner') || createLoadingSpinner(jadwalContainer, true),
+            peserta: pesertaTableBody.querySelector('.loading-spinner') || createLoadingSpinner(pesertaTableBody.parentNode.parentNode, false), 
+            galeri: galeriContainer.querySelector('.loading-spinner') || createLoadingSpinner(galeriContainer, false), // Changed to false as it's a list now
+            panitia: panitiaContainer.querySelector('.loading-spinner') || createLoadingSpinner(panitiaContainer, true),
+            timeline: timelineContainer.querySelector('.loading-spinner') || createLoadingSpinner(timelineContainer, false),
+            lomba: lombaCheckboxesContainer.querySelector('.loading-spinner') || createLoadingSpinner(lombaCheckboxesContainer, false)
+        };
+        
+        const loadingIndicatorsAdmin = {
+            peserta: document.getElementById('loadingAdminPeserta'),
+            lomba: document.getElementById('loadingAdminLomba'),
+            jadwal: document.getElementById('loadingAdminJadwal'),
+            panitia: document.getElementById('loadingAdminPanitia'),
+            timeline: document.getElementById('loadingAdminTimeline'),
+            pengumuman: document.getElementById('loadingAdminPengumuman'),
+            akunPanitia: loadingAdminAkunPanitia 
+        };
+
+        const deleteConfirmationModal = document.getElementById('deleteConfirmationModal');
+        const cancelDeleteButton = document.getElementById('cancelDeleteButton');
+        const confirmDeleteButton = document.getElementById('confirmDeleteButton');
+        const deleteModalMessage = document.getElementById('deleteModalMessage');
+        
+        const editModal = document.getElementById('editModal');
+        const editModalTitle = document.getElementById('editModalTitle');
+        const editModalForm = document.getElementById('editModalForm');
+        const cancelEditButton = document.getElementById('cancelEditButton');
+        const saveEditButton = document.getElementById('saveEditButton');
+
+        let itemToDelete = null; 
+        let itemToEdit = null; 
+        let unsubscribeFunctions = [];
+
+        // --- Helper Functions ---
+        function createLoadingSpinner(parent, isGridParent = false) {
+            const spinnerDiv = document.createElement('div');
+            spinnerDiv.className = 'loading-spinner';
+            if (isGridParent) {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'col-span-full text-center py-4';
+                wrapper.appendChild(spinnerDiv);
+                parent.insertBefore(wrapper, parent.firstChild);
+                return spinnerDiv;
+            } else if (parent.tagName === 'TBODY') {
+                 const tr = document.createElement('tr');
+                 const td = document.createElement('td');
+                 td.colSpan = 4; 
+                 td.className = "text-center py-4";
+                 td.appendChild(spinnerDiv);
+                 tr.appendChild(td)
+                 parent.appendChild(tr);
+                 return spinnerDiv;
+            }
+             else { // For single column containers like the new gallery list
+                const wrapper = document.createElement('div');
+                wrapper.className = 'text-center py-4'; // Center the spinner
+                wrapper.appendChild(spinnerDiv);
+                parent.insertBefore(wrapper, parent.firstChild);
+                return spinnerDiv;
+            }
+        }
+
+        function showLoading(section, type = 'public') {
+            let indicator;
+            if (type === 'public') {
+                indicator = loadingIndicatorsPublic[section];
+            } else { 
+                indicator = loadingIndicatorsAdmin[section];
+            }
+            if (indicator) indicator.classList.remove('hidden');
+        }
+
+        function hideLoading(section, type = 'public') {
+             let indicator;
+            if (type === 'public') {
+                indicator = loadingIndicatorsPublic[section];
+            } else { 
+                indicator = loadingIndicatorsAdmin[section];
+            }
+            if (indicator) indicator.classList.add('hidden');
+        }
+        
+        function showToast(message, type = 'info', duration = 3000) {
+            const toast = document.getElementById('toastNotification');
+            toast.textContent = message;
+            toast.className = 'toast show'; 
+            if (type === 'success') toast.classList.add('toast-success');
+            else if (type === 'error') toast.classList.add('toast-error');
+            else toast.classList.add('toast-info');
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, duration);
+        }
+
+        function showPage(pageName) {
+            Object.values(pages).forEach(page => page.classList.add('hidden'));
+            if (pages[pageName]) pages[pageName].classList.remove('hidden');
+            updateNavLinks(pageName);
+            mobileMenu.classList.add('hidden');
+        }
+
+        function updateNavLinks(activePage) {
+            const desktopLinks = [navLinks.home, navLinks.register, navLinks.adminLogin, navLinks.panitiaLogin];
+            const mobileLinks = [navLinks.mobileHome, navLinks.mobileRegister, navLinks.mobileAdminLogin, navLinks.mobilePanitiaLogin];
+
+            desktopLinks.forEach(link => link.classList.replace('nav-link-active', 'nav-link'));
+            mobileLinks.forEach(link => link.classList.remove('bg-red-100', 'text-red-700', 'bg-yellow-100', 'text-yellow-700'));
+
+
+            if (isAdminLoggedIn) {
+                navLinks.adminLogin.innerHTML = `Hi, ${ADMIN_USERNAME}`;
+                navLinks.panitiaLogin.classList.add('hidden'); 
+                navLinks.mobilePanitiaLogin.classList.add('hidden');
+            } else {
+                navLinks.adminLogin.textContent = 'Login Admin';
+                navLinks.panitiaLogin.classList.remove('hidden');
+                 navLinks.mobilePanitiaLogin.classList.remove('hidden');
+            }
+            
+            if(isPanitiaLoggedIn){
+                navLinks.panitiaLogin.innerHTML = `Hi, Panitia ${loggedInPanitiaUsernameState}`;
+                 navLinks.adminLogin.classList.add('hidden'); 
+                 navLinks.mobileAdminLogin.classList.add('hidden');
+            } else {
+                navLinks.panitiaLogin.textContent = 'Login Panitia';
+                if(!isAdminLoggedIn) { 
+                    navLinks.adminLogin.classList.remove('hidden');
+                    navLinks.mobileAdminLogin.classList.remove('hidden');
+                }
+            }
+
+
+            if (activePage === 'home') {
+                navLinks.home.classList.replace('nav-link', 'nav-link-active');
+                navLinks.mobileHome.classList.add('bg-red-100', 'text-red-700');
+            } else if (activePage === 'registration') {
+                navLinks.register.classList.replace('nav-link', 'nav-link-active');
+                navLinks.mobileRegister.classList.add('bg-red-100', 'text-red-700');
+            } else if (activePage === 'admin') {
+                navLinks.adminLogin.classList.replace('nav-link', 'nav-link-active');
+                navLinks.mobileAdminLogin.classList.add('bg-red-100', 'text-red-700');
+            } else if (activePage === 'panitiaLogin') {
+                navLinks.panitiaLogin.classList.replace('nav-link', 'nav-link-active');
+                navLinks.mobilePanitiaLogin.classList.add('bg-yellow-100', 'text-yellow-700');
+            }
+        }
+        
+        function formatDate(dateString) { 
+            if (!dateString) return "Tanggal tidak valid";
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            try {
+                const [year, month, day] = dateString.split('-');
+                return new Date(year, month - 1, day).toLocaleDateString('id-ID', options);
+            } catch (e) {
+                console.error("Error formatting date:", dateString, e);
+                return "Tanggal tidak valid";
+            }
+        }
+
+        function formatFirebaseTimestamp(timestamp) {
+            if (timestamp && typeof timestamp.toDate === 'function') {
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                return timestamp.toDate().toLocaleDateString('id-ID', options);
+            }
+            return "Tanggal tidak valid";
+        }
+        
+        function showDeleteConfirmationModal(message, collectionName, id, storagePath = null) { 
+            itemToDelete = { collectionName, id, storagePath }; 
+            deleteModalMessage.textContent = message;
+            deleteConfirmationModal.classList.remove('hidden');
+        }
+
+        function hideDeleteConfirmationModal() {
+            deleteConfirmationModal.classList.add('hidden');
+            itemToDelete = null;
+        }
+
+        function getCollectionRef(collectionName) {
+            return collection(db, `artifacts/${appId}/public/data/${collectionName}`);
+        }
+        
+        function getDocumentRef(collectionName, docId) {
+            return doc(db, `artifacts/${appId}/public/data/${collectionName}`, docId);
+        }
+
+        // --- Render Functions ---
+        function renderJadwal(jadwalData) {
+            jadwalContainer.innerHTML = ''; 
+            if (jadwalData.length === 0) {
+                jadwalContainer.innerHTML = '<p class="text-gray-500 col-span-full text-center">Belum ada jadwal kegiatan.</p>';
+                return;
+            }
+            jadwalData.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'card transform hover:scale-105';
+                card.innerHTML = `
+                    <h4 class="text-xl font-semibold text-red-600 mb-2">${item.lomba || 'N/A'}</h4>
+                    <p class="text-sm text-gray-600"><strong class="font-medium">Tanggal:</strong> ${formatDate(item.tanggal)}</p>
+                    <p class="text-sm text-gray-600"><strong class="font-medium">Waktu:</strong> ${item.waktu || 'N/A'} WIB</p>
+                    <p class="text-sm text-gray-600"><strong class="font-medium">Lokasi:</strong> ${item.lokasi || 'N/A'}</p>
+                    <p class="text-sm text-gray-600"><strong class="font-medium">PJ:</strong> ${item.pj || 'N/A'}</p>
+                `;
+                jadwalContainer.appendChild(card);
+            });
+        }
+        
+        function renderAdminJadwal(jadwalData) {
+            adminJadwalContainer.innerHTML = '';
+            if (jadwalData.length === 0) {
+                adminJadwalContainer.innerHTML = '<p class="text-gray-500">Belum ada jadwal.</p>';
+                return;
+            }
+            jadwalData.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'p-3 border rounded-md bg-white shadow flex justify-between items-center';
+                div.innerHTML = `
+                    <div>
+                        <h5 class="font-semibold">${item.lomba} (${formatDate(item.tanggal)} ${item.waktu})</h5>
+                        <p class="text-xs text-gray-500">${item.lokasi} - PJ: ${item.pj}</p>
+                    </div>
+                    <div>
+                        <button data-id="${item.id}" class="edit-item-btn text-blue-500 hover:text-blue-700 text-xs mr-2" data-collection="jadwal">Edit</button>
+                        <button data-id="${item.id}" class="delete-item-btn text-red-500 hover:text-red-700 text-xs" data-collection="jadwal">Hapus</button>
+                    </div>
+                `;
+                adminJadwalContainer.appendChild(div);
+            });
+            attachAdminActionListeners();
+        }
+
+        function renderPeserta(pesertaData) {
+            pesertaTableBody.innerHTML = '';
+            if (pesertaData.length === 0) {
+                pesertaTableBody.innerHTML = '<tr><td colspan="4" class="text-center py-4 text-gray-500">Belum ada peserta terdaftar.</td></tr>';
+                return;
+            }
+            pesertaData.forEach(p => {
+                const row = pesertaTableBody.insertRow();
+                row.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${p.nama}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${p.kategori}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${Array.isArray(p.lomba) ? p.lomba.join(', ') : (p.lomba || 'N/A')}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${p.status === 'Valid' ? 'bg-green-100 text-green-800' : (p.status === 'Pending' ? 'bg-yellow-100 text-yellow-800' : (p.status === 'Ditolak' ? 'bg-red-100 text-red-800' : 'bg-blue-100 text-blue-800'))}">
+                            ${p.status}
+                        </span>
+                    </td>
+                `;
+            });
+        }
+        
+        function renderAdminPeserta(pesertaData) {
+            adminPesertaTableBody.innerHTML = '';
+            if (pesertaData.length === 0) {
+                adminPesertaTableBody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-gray-500">Belum ada peserta.</td></tr>';
+                return;
+            }
+            pesertaData.forEach(p => {
+                const row = adminPesertaTableBody.insertRow();
+                row.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${p.nama}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${p.kategori}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${Array.isArray(p.lomba) ? p.lomba.join(', ') : (p.lomba || 'N/A')}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm">
+                        <select data-id="${p.id}" class="status-peserta-select border-gray-300 rounded-md shadow-sm text-xs p-1">
+                            <option value="Terdaftar" ${p.status === 'Terdaftar' ? 'selected' : ''}>Terdaftar</option>
+                            <option value="Valid" ${p.status === 'Valid' ? 'selected' : ''}>Valid</option>
+                            <option value="Pending" ${p.status === 'Pending' ? 'selected' : ''}>Pending</option>
+                            <option value="Ditolak" ${p.status === 'Ditolak' ? 'selected' : ''}>Ditolak</option>
+                        </select>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <button data-id="${p.id}" class="edit-item-btn text-blue-500 hover:text-blue-700 text-xs mr-2" data-collection="peserta">Edit</button>
+                        <button data-id="${p.id}" class="delete-item-btn text-red-500 hover:text-red-700 text-xs" data-collection="peserta">Hapus</button>
+                    </td>
+                `;
+            });
+
+            document.querySelectorAll('.status-peserta-select').forEach(select => {
+                select.addEventListener('change', async (e) => {
+                    if (!isAdminLoggedIn) { showToast("Admin access required.", "error"); e.target.value = e.target.querySelector('option[selected]').value; return; }
+                    const id = e.target.dataset.id;
+                    const newStatus = e.target.value;
+                    try {
+                        await updateDoc(getDocumentRef('peserta', id), { status: newStatus });
+                        showToast('Status peserta berhasil diperbarui.', 'success');
+                    } catch (error) {
+                        console.error("Error updating peserta status: ", error);
+                        showToast('Gagal memperbarui status peserta.', 'error');
+                    }
+                });
+            });
+            attachAdminActionListeners();
+        }
+
+        function renderGaleri(galeriData) {
+            galeriContainer.innerHTML = ''; 
+            const loadingSpinner = galeriContainer.querySelector('.loading-spinner');
+            if (loadingSpinner) loadingSpinner.classList.add('hidden');
+
+            if (galeriData.length === 0) {
+                galeriContainer.innerHTML = '<p class="text-gray-500 text-center">Belum ada tautan galeri.</p>';
+                return;
+            }
+            galeriData.forEach(item => {
+                const linkElement = document.createElement('a');
+                linkElement.href = item.url;
+                linkElement.target = "_blank";
+                linkElement.rel = "noopener noreferrer";
+                linkElement.className = 'gallery-link-item'; // Use the new CSS class
+                
+                linkElement.innerHTML = `
+                    <span>${item.alt}</span>
+                    <i class="fas fa-external-link-alt"></i>
+                `;
+                galeriContainer.appendChild(linkElement);
+            });
+        }
+        
+        function renderAdminGaleri(galeriData) {
+            adminGaleriContainer.innerHTML = '';
+            if (galeriData.length === 0) {
+                adminGaleriContainer.innerHTML = '<p class="text-gray-500">Belum ada tautan galeri ditambahkan.</p>';
+                return;
+            }
+            galeriData.forEach(foto => {
+                const div = document.createElement('div');
+                 // Changed to a list-like display for admin as well for consistency
+                div.className = 'p-3 border rounded-md bg-white shadow flex justify-between items-center';
+                div.innerHTML = `
+                    <div class="truncate">
+                        <a href="${foto.url}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline font-medium">${foto.alt}</a>
+                        <p class="text-xs text-gray-500 truncate">${foto.url}</p>
+                    </div>
+                    <div>
+                        <button data-id="${foto.id}" class="edit-item-btn text-blue-500 hover:text-blue-700 text-xs mr-2" data-collection="galeri">Edit</button>
+                        <button data-id="${foto.id}" class="delete-item-btn text-red-500 hover:text-red-700 text-xs" data-collection="galeri">Hapus</button>
+                    </div>
+                `;
+                adminGaleriContainer.appendChild(div);
+            });
+            attachAdminActionListeners();
+        }
+
+        function renderPanitia(panitiaData) {
+            panitiaContainer.innerHTML = '';
+            if (panitiaData.length === 0) {
+                panitiaContainer.innerHTML = '<p class="text-gray-500 col-span-full text-center">Belum ada data panitia.</p>';
+                return;
+            }
+            panitiaData.forEach(p => {
+                const card = document.createElement('div');
+                card.className = 'card text-center items-center';
+                card.innerHTML = `
+                    <img src="${p.foto}" alt="Foto ${p.nama}" onerror="this.onerror=null;this.src='https://placehold.co/150x150/cccccc/ffffff?text=Foto';" class="w-32 h-32 rounded-full mx-auto mb-4 object-cover shadow-md">
+                    <h4 class="text-xl font-semibold text-gray-800">${p.nama}</h4>
+                    <p class="text-red-600 font-medium">${p.jabatan}</p>
+                    <p class="text-sm text-gray-500">${p.kontak}</p>
+                `;
+                panitiaContainer.appendChild(card);
+            });
+        }
+
+        function renderAdminPanitia(panitiaData) {
+            adminPanitiaContainer.innerHTML = '';
+             if (panitiaData.length === 0) {
+                adminPanitiaContainer.innerHTML = '<p class="text-gray-500">Belum ada data panitia.</p>';
+                return;
+            }
+            panitiaData.forEach(p => {
+                const card = document.createElement('div');
+                card.className = 'p-3 border rounded-md bg-white shadow text-center';
+                card.innerHTML = `
+                    <img src="${p.foto}" alt="${p.nama}" onerror="this.onerror=null;this.src='https://placehold.co/80x80/cccccc/ffffff?text=X';" class="w-20 h-20 rounded-full mx-auto mb-2 object-cover">
+                    <h5 class="font-semibold text-sm">${p.nama}</h5>
+                    <p class="text-xs text-gray-500">${p.jabatan}</p>
+                    <p class="text-xs text-gray-500">${p.kontak}</p>
+                    <div class="mt-2">
+                        <button data-id="${p.id}" class="edit-item-btn text-blue-500 hover:text-blue-700 text-xs mr-2" data-collection="panitia">Edit</button>
+                        <button data-id="${p.id}" class="delete-item-btn text-red-500 hover:text-red-700 text-xs" data-collection="panitia">Hapus</button>
+                    </div>
+                `;
+                adminPanitiaContainer.appendChild(card);
+            });
+            attachAdminActionListeners();
+        }
+
+        function renderTimeline(timelineData) {
+            timelineContainer.innerHTML = '';
+            if (timelineData.length === 0) {
+                timelineContainer.innerHTML = '<p class="text-gray-500 text-center">Belum ada timeline kegiatan.</p>';
+                return;
+            }
+            timelineData.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = `relative flex items-center ${index % 2 === 0 ? 'md:flex-row-reverse' : ''} md:justify-between md:gap-6`;
+                div.innerHTML = `
+                    <div class="flex items-center justify-center w-10 h-10 rounded-full bg-red-500 text-white shadow-md absolute left-5 -translate-x-1/2 md:relative md:left-0 md:translate-x-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" /></svg>
+                    </div>
+                    <div class="w-full bg-white p-4 rounded-xl shadow-lg md:w-5/12 ${index % 2 === 0 ? 'md:text-right' : ''}">
+                        <p class="text-sm font-semibold text-red-600">${formatDate(item.tanggal)}</p>
+                        <h4 class="text-lg font-bold text-gray-800">${item.judul}</h4>
+                        <p class="text-sm text-gray-600">${item.deskripsi}</p>
+                    </div>
+                `;
+                timelineContainer.appendChild(div);
+            });
+        }
+        
+        function renderAdminTimeline(timelineData) {
+            adminTimelineContainer.innerHTML = '';
+            if (timelineData.length === 0) {
+                adminTimelineContainer.innerHTML = '<p class="text-gray-500">Belum ada timeline.</p>';
+                return;
+            }
+            timelineData.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'p-3 border rounded-md bg-white shadow flex justify-between items-start';
+                div.innerHTML = `
+                    <div>
+                        <h5 class="font-semibold">${item.judul} (${formatDate(item.tanggal)})</h5>
+                        <p class="text-xs text-gray-500">${item.deskripsi}</p>
+                    </div>
+                     <div>
+                        <button data-id="${item.id}" class="edit-item-btn text-blue-500 hover:text-blue-700 text-xs mr-2" data-collection="timeline">Edit</button>
+                        <button data-id="${item.id}" class="delete-item-btn text-red-500 hover:text-red-700 text-xs" data-collection="timeline">Hapus</button>
+                    </div>
+                `;
+                adminTimelineContainer.appendChild(div);
+            });
+            attachAdminActionListeners();
+        }
+
+        function renderLombaCheckboxes(lombaData, containerElement, namePrefix = "lombaDiikuti", existingLomba = []) {
+            containerElement.innerHTML = '';
+            if (lombaData.length === 0) {
+                containerElement.innerHTML = '<p class="text-gray-500">Belum ada lomba tersedia.</p>';
+                return;
+            }
+            lombaData.forEach(l => {
+                const isChecked = existingLomba.includes(l.nama);
+                const div = document.createElement('div');
+                div.className = 'flex items-center';
+                div.innerHTML = `
+                    <input id="${namePrefix}-${l.id}" name="${namePrefix}" type="checkbox" value="${l.nama}" ${isChecked ? 'checked' : ''} class="h-4 w-4 text-red-600 border-gray-300 rounded focus:ring-red-500">
+                    <label for="${namePrefix}-${l.id}" class="ml-2 block text-sm text-gray-900">${l.nama}</label>
+                `;
+                containerElement.appendChild(div);
+            });
+        }
+
+
+        function renderAdminLombaList(lombaData) {
+            adminLombaList.innerHTML = '';
+            if (lombaData.length === 0) {
+                adminLombaList.innerHTML = '<li class="text-gray-500">Belum ada lomba ditambahkan.</li>';
+                return;
+            }
+            lombaData.forEach(l => {
+                const li = document.createElement('li');
+                li.className = 'flex justify-between items-center py-2 px-3 border rounded-md bg-gray-50';
+                li.innerHTML = `
+                    <span>${l.nama}</span>
+                    <div>
+                        <button data-id="${l.id}" class="edit-item-btn text-blue-500 hover:text-blue-700 text-xs mr-2" data-collection="lomba">Edit</button>
+                        <button data-id="${l.id}" class="delete-item-btn text-red-500 hover:text-red-700 text-xs" data-collection="lomba">Hapus</button>
+                    </div>
+                `;
+                adminLombaList.appendChild(li);
+            });
+            attachAdminActionListeners();
+        }
+
+        function renderPengumuman(pengumumanData) {
+            if (pengumumanData) {
+                pengumumanContainer.innerHTML = `
+                    <p class="font-bold">${pengumumanData.judul}</p>
+                    <p>${pengumumanData.isi}</p>
+                `;
+                pengumumanJudulInput.value = pengumumanData.judul;
+                pengumumanIsiInput.value = pengumumanData.isi;
+            } else {
+                 pengumumanContainer.innerHTML = '<p class="text-gray-500">Belum ada pengumuman.</p>';
+            }
+        }
+
+        function renderAdminAkunPanitiaList(akunData) {
+            adminAkunPanitiaListContainer.innerHTML = '';
+            if (akunData.length === 0) {
+                adminAkunPanitiaListContainer.innerHTML = '<li class="text-gray-500">Belum ada akun panitia.</li>';
+                return;
+            }
+            akunData.forEach(akun => {
+                const li = document.createElement('li');
+                li.className = 'flex justify-between items-center py-2 px-3 border rounded-md bg-gray-50';
+                li.innerHTML = `
+                    <span>Username: ${akun.username}</span>
+                    <div>
+                        <button data-id="${akun.id}" class="edit-item-btn text-blue-500 hover:text-blue-700 text-xs mr-2" data-collection="panitia_logins">Edit</button>
+                        <button data-id="${akun.id}" class="delete-item-btn text-red-500 hover:text-red-700 text-xs" data-collection="panitia_logins">Hapus</button>
+                    </div>
+                `;
+                adminAkunPanitiaListContainer.appendChild(li);
+            });
+            attachAdminActionListeners(); 
+        }
+
+
+        // --- Firestore Data Fetching and Realtime Updates ---
+        function setupFirestoreListeners() {
+            unsubscribeFunctions.forEach(unsub => unsub());
+            unsubscribeFunctions = [];
+
+            const collectionsToWatch = {
+                jadwal: { renderFn: renderJadwal, adminRenderFn: renderAdminJadwal, loadingId: 'jadwal' },
+                peserta: { renderFn: renderPeserta, adminRenderFn: renderAdminPeserta, loadingId: 'peserta' },
+                galeri: { renderFn: renderGaleri, adminRenderFn: renderAdminGaleri, loadingId: 'galeri' }, 
+                panitia: { renderFn: renderPanitia, adminRenderFn: renderAdminPanitia, loadingId: 'panitia' },
+                timeline: { renderFn: renderTimeline, adminRenderFn: renderAdminTimeline, loadingId: 'timeline' },
+                lomba: { 
+                    renderFn: (data) => renderLombaCheckboxes(data, lombaCheckboxesContainer, "lombaDiikuti"), 
+                    adminRenderFn: renderAdminLombaList, 
+                    loadingId: 'lomba',
+                    additionalAdminRender: (data) => renderLombaCheckboxes(data, adminLombaCheckboxesPeserta, "adminLombaPeserta")
+                },
+                panitia_logins: { 
+                    renderFn: () => {}, 
+                    adminRenderFn: renderAdminAkunPanitiaList,
+                    loadingId: 'akunPanitia' 
+                }
+            };
+
+            Object.entries(collectionsToWatch).forEach(([name, config]) => {
+                if (config.loadingId && loadingIndicatorsPublic[config.loadingId] && typeof config.renderFn === 'function' && config.renderFn !== (() => {})) {
+                     showLoading(config.loadingId, 'public');
+                }
+                if (isAdminLoggedIn && config.loadingId && loadingIndicatorsAdmin[config.loadingId] && typeof config.adminRenderFn === 'function') {
+                     showLoading(config.loadingId, 'admin');
+                }
+
+
+                const unsub = onSnapshot(getCollectionRef(name), (snapshot) => {
+                    const dataList = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    if (name === 'jadwal' || name === 'timeline') {
+                        dataList.sort((a, b) => new Date(a.tanggal + 'T' + (a.waktu || '00:00')) - new Date(b.tanggal + 'T' + (b.waktu || '00:00')));
+                    } else if ((name === 'peserta' || name === 'panitia_logins') && dataList.every(item => item.createdAt && typeof item.createdAt.toDate === 'function')) {
+                         dataList.sort((a, b) => b.createdAt.toDate() - a.createdAt.toDate());
+                    }
+
+                    if (typeof config.renderFn === 'function' && config.renderFn !== (() => {})) {
+                        config.renderFn(dataList);
+                    }
+                    if (isAdminLoggedIn && typeof config.adminRenderFn === 'function') { 
+                         config.adminRenderFn(dataList);
+                    }
+                    if (isAdminLoggedIn && typeof config.additionalAdminRender === 'function') {
+                        config.additionalAdminRender(dataList);
+                    }
+                    
+                    if (config.loadingId && loadingIndicatorsPublic[config.loadingId] && typeof config.renderFn === 'function' && config.renderFn !== (() => {})) {
+                        hideLoading(config.loadingId, 'public');
+                    }
+                    if (isAdminLoggedIn && config.loadingId && loadingIndicatorsAdmin[config.loadingId] && typeof config.adminRenderFn === 'function') { 
+                        hideLoading(config.loadingId, 'admin');
+                    }
+                }, (error) => {
+                    console.error(`Error fetching ${name}: `, error);
+                    showToast(`Gagal memuat data ${name}.`, 'error');
+                    if (config.loadingId && loadingIndicatorsPublic[config.loadingId]) {
+                        hideLoading(config.loadingId, 'public');
+                    }
+                    if (isAdminLoggedIn && config.loadingId && loadingIndicatorsAdmin[config.loadingId]) {
+                        hideLoading(config.loadingId, 'admin');
+                    }
+                });
+                unsubscribeFunctions.push(unsub);
+            });
+
+            if (loadingIndicatorsAdmin.pengumuman) showLoading('pengumuman', 'admin'); 
+            pengumumanLoading.classList.remove('hidden'); 
+            const unsubPengumuman = onSnapshot(getDocumentRef('config', 'pengumuman'), (docSnap) => {
+                if (docSnap.exists()) {
+                    renderPengumuman(docSnap.data());
+                } else {
+                    renderPengumuman({ judul: "Belum Ada Pengumuman", isi: "Silakan cek kembali nanti." });
+                }
+                if (loadingIndicatorsAdmin.pengumuman) hideLoading('pengumuman', 'admin');
+                pengumumanLoading.classList.add('hidden');
+            }, (error) => {
+                console.error("Error fetching pengumuman: ", error);
+                showToast('Gagal memuat pengumuman.', 'error');
+                if (loadingIndicatorsAdmin.pengumuman) hideLoading('pengumuman', 'admin');
+                pengumumanLoading.classList.add('hidden');
+            });
+            unsubscribeFunctions.push(unsubPengumuman);
+        }
+
+
+        // --- Event Listeners ---
+        navLinks.home.addEventListener('click', (e) => { e.preventDefault(); showPage('home'); });
+        navLinks.register.addEventListener('click', (e) => { e.preventDefault(); showPage('registration'); });
+        navLinks.adminLogin.addEventListener('click', (e) => { e.preventDefault(); showPage('admin'); });
+        navLinks.panitiaLogin.addEventListener('click', (e) => { e.preventDefault(); showPage('panitiaLogin'); }); 
+        
+        navLinks.mobileHome.addEventListener('click', (e) => { e.preventDefault(); showPage('home'); });
+        navLinks.mobileRegister.addEventListener('click', (e) => { e.preventDefault(); showPage('registration'); });
+        navLinks.mobileAdminLogin.addEventListener('click', (e) => { e.preventDefault(); showPage('admin'); });
+        navLinks.mobilePanitiaLogin.addEventListener('click', (e) => { e.preventDefault(); showPage('panitiaLogin'); }); 
+        
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        btnGoToRegister.addEventListener('click', () => showPage('registration'));
+        btnGoToAdminLogin.addEventListener('click', () => showPage('admin'));
+        btnGoToPanitiaLogin.addEventListener('click', () => showPage('panitiaLogin')); 
+        backToHomeFromRegister.addEventListener('click', () => {
+            registrationFormContainer.classList.remove('hidden');
+            registrationSuccessMessage.classList.add('hidden');
+            showPage('home');
+        });
+
+        formPendaftaran.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            btnSubmitPendaftaran.disabled = true;
+            btnSubmitPendaftaran.textContent = 'Mendaftar...';
+
+            const nama = formPendaftaran.namaPeserta.value;
+            const kategori = formPendaftaran.kategoriPeserta.value;
+            const lombaDiikutiCheckboxes = formPendaftaran.querySelectorAll('input[name="lombaDiikuti"]:checked');
+            const lomba = Array.from(lombaDiikutiCheckboxes).map(cb => cb.value);
+
+            if (lomba.length === 0) {
+                showToast('Mohon pilih minimal satu lomba.', 'error');
+                btnSubmitPendaftaran.disabled = false;
+                btnSubmitPendaftaran.textContent = 'Daftar';
+                return;
+            }
+
+            try {
+                await addDoc(getCollectionRef('peserta'), {
+                    nama,
+                    kategori,
+                    lomba,
+                    status: "Terdaftar",
+                    createdAt: Timestamp.now()
+                });
+                formPendaftaran.reset();
+                registrationFormContainer.classList.add('hidden');
+                registrationSuccessMessage.classList.remove('hidden');
+                showToast('Pendaftaran berhasil!', 'success');
+                setTimeout(() => {
+                    if(pages.registration.classList.contains('hidden') === false) {
+                        registrationFormContainer.classList.remove('hidden');
+                        registrationSuccessMessage.classList.add('hidden');
+                    }
+                }, 5000);
+            } catch (error) {
+                console.error("Error adding peserta: ", error);
+                showToast('Gagal melakukan pendaftaran. Coba lagi.', 'error');
+            } finally {
+                btnSubmitPendaftaran.disabled = false;
+                btnSubmitPendaftaran.textContent = 'Daftar';
+            }
+        });
+        
+        panitiaLoginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            btnPanitiaLogin.disabled = true;
+            btnPanitiaLogin.textContent = "Logging in...";
+            panitiaLoginError.classList.add('hidden');
+            panitiaLoginError.textContent = "";
+
+            const username = panitiaLoginForm.panitiaUsername.value;
+            const password = panitiaLoginForm.panitiaPassword.value;
+
+            try {
+                const q = query(getCollectionRef('panitia_logins'), where("username", "==", username));
+                const querySnapshot = await getDocs(q);
+                
+                if (querySnapshot.empty) {
+                    panitiaLoginError.textContent = "Login gagal: Username tidak ditemukan.";
+                    panitiaLoginError.classList.remove('hidden');
+                    showToast('Username panitia tidak ditemukan.', 'error');
+                } else {
+                    let found = false;
+                    querySnapshot.forEach((doc) => {
+                        if (doc.data().password === password) { 
+                            found = true;
+                            isPanitiaLoggedIn = true;
+                            loggedInPanitiaUsernameState = username;
+                            loggedInPanitiaUsername.textContent = username;
+                            panitiaLoginSection.classList.add('hidden');
+                            panitiaDashboard.classList.remove('hidden');
+                            updateNavLinks('panitiaLogin'); 
+                            showToast(`Selamat datang, Panitia ${username}!`, 'success');
+                        }
+                    });
+                    if (!found) {
+                        panitiaLoginError.textContent = "Login gagal: Password salah.";
+                        panitiaLoginError.classList.remove('hidden');
+                        showToast('Password panitia salah.', 'error');
+                    }
+                }
+            } catch (error) {
+                console.error("Panitia login error:", error);
+                panitiaLoginError.textContent = "Terjadi kesalahan saat login. Coba lagi.";
+                panitiaLoginError.classList.remove('hidden');
+                showToast('Error saat login panitia.', 'error');
+            } finally {
+                btnPanitiaLogin.disabled = false;
+                btnPanitiaLogin.textContent = "Login";
+            }
+        });
+
+        panitiaLogoutButton.addEventListener('click', () => {
+            isPanitiaLoggedIn = false;
+            loggedInPanitiaUsernameState = null;
+            panitiaLoginSection.classList.remove('hidden');
+            panitiaDashboard.classList.add('hidden');
+            updateNavLinks('home'); 
+            showToast('Logout panitia berhasil.', 'info');
+            showPage('home');
+        });
+
+
+        adminLoginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            btnAdminLogin.disabled = true;
+            btnAdminLogin.textContent = "Logging in...";
+            adminLoginError.classList.add('hidden');
+            adminLoginError.textContent = "";
+
+            const username = adminLoginForm.adminUsername.value; 
+            const password = adminLoginForm.adminPassword.value;
+
+            if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+                isAdminLoggedIn = true;
+                adminUsernameDisplay.textContent = ADMIN_USERNAME;
+                appIdDisplay.textContent = appId;
+
+                adminLoginSection.classList.add('hidden');
+                adminDashboard.classList.remove('hidden');
+                
+                setupFirestoreListeners(); 
+                adminTabs.forEach(btn => btn.classList.replace('tab-button-active', 'tab-button-inactive'));
+                adminContents.forEach(content => content.classList.add('hidden'));
+                document.querySelector('.admin-tab-button[data-tab="adminPeserta"]').classList.replace('tab-button-inactive', 'tab-button-active');
+                document.getElementById('adminPeserta').classList.remove('hidden');
+                updateNavLinks('admin'); 
+                showToast(`Selamat datang, ${ADMIN_USERNAME}!`, 'success');
+            } else {
+                adminLoginError.textContent = "Login gagal: Username atau password salah.";
+                adminLoginError.classList.remove('hidden');
+                showToast('Username atau password salah.', 'error');
+            }
+            btnAdminLogin.disabled = false;
+            btnAdminLogin.textContent = "Login";
+        });
+
+        adminLogoutButton.addEventListener('click', () => {
+            isAdminLoggedIn = false;
+            adminLoginSection.classList.remove('hidden');
+            adminDashboard.classList.add('hidden');
+            adminUsernameDisplay.textContent = '';
+            updateNavLinks('home'); 
+            showToast('Logout berhasil.', 'info');
+            showPage('home'); 
+        });
+        
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // console.log("Firebase Auth User (possibly anonymous):", user.uid);
+            } else {
+                // console.log("No Firebase user signed in.");
+            }
+        });
+
+
+        adminTabs.forEach(button => {
+            button.addEventListener('click', () => {
+                adminTabs.forEach(btn => btn.classList.replace('tab-button-active', 'tab-button-inactive'));
+                button.classList.replace('tab-button-inactive', 'tab-button-active');
+                
+                adminContents.forEach(content => content.classList.add('hidden'));
+                document.getElementById(button.dataset.tab).classList.remove('hidden');
+            });
+        });
+
+        adminAddPesertaForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!isAdminLoggedIn) {
+                showToast("Anda harus login sebagai admin untuk melakukan aksi ini.", "error");
+                return;
+            }
+            const nama = adminAddPesertaForm.nama.value;
+            const kategori = adminAddPesertaForm.kategori.value;
+            const status = adminAddPesertaForm.status.value;
+            const lombaCheckboxes = adminAddPesertaForm.querySelectorAll('input[name="adminLombaPeserta"]:checked');
+            const lomba = Array.from(lombaCheckboxes).map(cb => cb.value);
+
+            if (!nama || lomba.length === 0) {
+                showToast('Nama dan minimal satu lomba harus diisi.', 'error');
+                return;
+            }
+            try {
+                await addDoc(getCollectionRef('peserta'), { nama, kategori, lomba, status, createdAt: Timestamp.now() });
+                showToast('Peserta berhasil ditambahkan.', 'success');
+                adminAddPesertaForm.reset();
+                adminAddPesertaForm.querySelectorAll('input[name="adminLombaPeserta"]').forEach(cb => cb.checked = false);
+            } catch (error) {
+                console.error("Error adding peserta by admin: ", error);
+                showToast('Gagal menambah peserta.', 'error');
+            }
+        });
+
+        adminAddLombaForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!isAdminLoggedIn) { showToast("Admin access required.", "error"); return; }
+            const namaLombaBaru = document.getElementById('namaLombaBaru').value.trim();
+            if (namaLombaBaru) {
+                try {
+                    const q = query(getCollectionRef('lomba')); 
+                    const querySnapshot = await getDocs(q);
+                    const existingLomba = querySnapshot.docs.find(doc => doc.data().nama.toLowerCase() === namaLombaBaru.toLowerCase());
+                    if (existingLomba) {
+                        showToast('Lomba dengan nama tersebut sudah ada.', 'error');
+                        return;
+                    }
+                    await addDoc(getCollectionRef('lomba'), { nama: namaLombaBaru, createdAt: Timestamp.now() });
+                    showToast('Lomba berhasil ditambahkan.', 'success');
+                    document.getElementById('namaLombaBaru').value = '';
+                } catch (error) {
+                    console.error("Error adding lomba: ", error);
+                    showToast('Gagal menambah lomba.', 'error');
+                }
+            } else {
+                showToast('Nama lomba tidak boleh kosong.', 'error');
+            }
+        });
+        
+        adminAddJadwalForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!isAdminLoggedIn) { showToast("Admin access required.", "error"); return; }
+            const formData = new FormData(adminAddJadwalForm);
+            const jadwalData = Object.fromEntries(formData.entries());
+            try {
+                await addDoc(getCollectionRef('jadwal'), { ...jadwalData, createdAt: Timestamp.now() });
+                showToast('Jadwal berhasil ditambahkan.', 'success');
+                adminAddJadwalForm.reset();
+            } catch (error) {
+                console.error("Error adding jadwal: ", error);
+                showToast('Gagal menambah jadwal.', 'error');
+            }
+        });
+
+        adminAddPanitiaForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!isAdminLoggedIn) { showToast("Admin access required.", "error"); return; }
+            const formData = new FormData(adminAddPanitiaForm);
+            const panitiaData = Object.fromEntries(formData.entries());
+             try {
+                await addDoc(getCollectionRef('panitia'), { ...panitiaData, createdAt: Timestamp.now() });
+                showToast('Panitia berhasil ditambahkan.', 'success');
+                adminAddPanitiaForm.reset();
+            } catch (error) {
+                console.error("Error adding panitia: ", error);
+                showToast('Gagal menambah panitia.', 'error');
+            }
+        });
+
+        adminAddGaleriForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!isAdminLoggedIn) { showToast("Admin access required.", "error"); return; }
+
+            const imageUrl = document.getElementById('galeriImageUrl').value.trim();
+            const altText = document.getElementById('galeriImageAlt').value.trim();
+
+            if (!imageUrl) {
+                showToast('URL Gambar tidak boleh kosong.', 'error');
+                return;
+            }
+            if (!altText) {
+                showToast('Deskripsi gambar tidak boleh kosong.', 'error');
+                return;
+            }
+            
+            btnSubmitGaleri.disabled = true;
+            btnSubmitGaleri.textContent = 'Menambahkan...';
+
+            try {
+                await addDoc(getCollectionRef('galeri'), {
+                    url: imageUrl,
+                    alt: altText,
+                    createdAt: Timestamp.now()
+                });
+                showToast('Foto berhasil ditambahkan ke galeri.', 'success');
+                adminAddGaleriForm.reset();
+            } catch (error) {
+                console.error("Error adding gallery item to Firestore: ", error);
+                showToast('Gagal menyimpan data foto ke database.', 'error');
+            } finally {
+                btnSubmitGaleri.disabled = false;
+                btnSubmitGaleri.textContent = 'Tambahkan Tautan'; // Changed button text
+            }
+        });
+        
+        adminAddTimelineForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!isAdminLoggedIn) { showToast("Admin access required.", "error"); return; }
+            const formData = new FormData(adminAddTimelineForm);
+            const timelineData = Object.fromEntries(formData.entries());
+             try {
+                await addDoc(getCollectionRef('timeline'), { ...timelineData, createdAt: Timestamp.now() });
+                showToast('Timeline berhasil ditambahkan.', 'success');
+                adminAddTimelineForm.reset();
+            } catch (error) {
+                console.error("Error adding timeline: ", error);
+                showToast('Gagal menambah timeline.', 'error');
+            }
+        });
+
+        adminEditPengumumanForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!isAdminLoggedIn) { showToast("Admin access required.", "error"); return; }
+            const pengumumanData = {
+                judul: pengumumanJudulInput.value,
+                isi: pengumumanIsiInput.value,
+                updatedAt: Timestamp.now()
+            };
+            try {
+                await setDoc(getDocumentRef('config', 'pengumuman'), pengumumanData); 
+                showToast('Pengumuman berhasil diperbarui!', 'success');
+            } catch (error) {
+                console.error("Error updating pengumuman: ", error);
+                showToast('Gagal memperbarui pengumuman.', 'error');
+            }
+        });
+
+        adminAddAkunPanitiaForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!isAdminLoggedIn) { showToast("Admin access required.", "error"); return; }
+            
+            const username = adminAddAkunPanitiaForm.username.value.trim();
+            const password = adminAddAkunPanitiaForm.password.value; 
+
+            if (!username || !password) {
+                showToast("Username dan password panitia harus diisi.", "error");
+                return;
+            }
+
+            try {
+                const q = query(getCollectionRef('panitia_logins'), where("username", "==", username));
+                const querySnapshot = await getDocs(q);
+                if (!querySnapshot.empty) {
+                    showToast(`Username panitia "${username}" sudah ada.`, "error");
+                    return;
+                }
+
+                await addDoc(getCollectionRef('panitia_logins'), {
+                    username: username,
+                    password: password, 
+                    createdAt: Timestamp.now()
+                });
+                showToast(`Akun panitia untuk ${username} berhasil ditambahkan.`, 'success');
+                adminAddAkunPanitiaForm.reset();
+            } catch (error) {
+                console.error("Error adding panitia account:", error);
+                showToast("Gagal menambahkan akun panitia.", "error");
+            }
+        });
+        
+        function attachAdminActionListeners() {
+            document.querySelectorAll('.delete-item-btn').forEach(btn => {
+                const newBtn = btn.cloneNode(true);
+                btn.parentNode.replaceChild(newBtn, btn);
+                newBtn.addEventListener('click', (e) => {
+                    if (!isAdminLoggedIn) { showToast("Admin access required.", "error"); return; }
+                    const id = e.target.dataset.id;
+                    const collectionName = e.target.dataset.collection;
+                    showDeleteConfirmationModal(`Apakah Anda yakin ingin menghapus item ini dari ${collectionName}?`, collectionName, id);
+                });
+            });
+            document.querySelectorAll('.edit-item-btn').forEach(btn => {
+                 const newBtn = btn.cloneNode(true);
+                btn.parentNode.replaceChild(newBtn, btn);
+                newBtn.addEventListener('click', async (e) => {
+                    if (!isAdminLoggedIn) { showToast("Admin access required.", "error"); return; }
+                    const id = e.target.dataset.id;
+                    const collectionName = e.target.dataset.collection;
+                    try {
+                        const docSnap = await getDoc(getDocumentRef(collectionName, id));
+                        if (docSnap.exists()) {
+                            itemToEdit = { collectionName, id, data: docSnap.data() };
+                            openEditModal(collectionName, itemToEdit.data);
+                        } else {
+                            showToast('Item tidak ditemukan untuk diedit.', 'error');
+                        }
+                    } catch (error) {
+                        console.error("Error fetching item for edit:", error);
+                        showToast('Gagal memuat item untuk diedit.', 'error');
+                    }
+                });
+            });
+        }
+        
+        cancelDeleteButton.addEventListener('click', hideDeleteConfirmationModal);
+        confirmDeleteButton.addEventListener('click', async () => {
+            if (!itemToDelete) return;
+            if (!isAdminLoggedIn) { 
+                showToast("Admin access required.", "error"); 
+                hideDeleteConfirmationModal();
+                return; 
+            }
+            
+            const { collectionName, id } = itemToDelete; 
+            confirmDeleteButton.disabled = true;
+            confirmDeleteButton.textContent = "Menghapus...";
+            try {
+                await deleteDoc(getDocumentRef(collectionName, id));
+                showToast('Item berhasil dihapus.', 'success');
+            } catch (error) {
+                console.error("Error deleting item: ", error);
+                showToast('Gagal menghapus item.', 'error');
+            } finally {
+                hideDeleteConfirmationModal();
+                confirmDeleteButton.disabled = false;
+                confirmDeleteButton.textContent = "Hapus";
+            }
+        });
+
+        function openEditModal(collectionName, data) {
+            editModalTitle.textContent = `Edit ${collectionName.charAt(0).toUpperCase() + collectionName.slice(1)}`;
+            editModalForm.innerHTML = ''; 
+
+            if (collectionName === 'lomba') {
+                editModalForm.innerHTML = `
+                    <input type="hidden" name="id" value="${itemToEdit.id}">
+                    <div>
+                        <label for="editNamaLomba" class="block text-sm font-medium text-gray-700">Nama Lomba</label>
+                        <input type="text" id="editNamaLomba" name="nama" value="${data.nama || ''}" required class="mt-1 block w-full p-2 border rounded-md">
+                    </div>
+                `;
+            } else if (collectionName === 'jadwal') {
+                 editModalForm.innerHTML = `
+                    <input type="hidden" name="id" value="${itemToEdit.id}">
+                    <div><label class="block text-sm font-medium">Tanggal</label><input type="date" name="tanggal" value="${data.tanggal || ''}" required class="mt-1 block w-full p-2 border rounded-md"></div>
+                    <div><label class="block text-sm font-medium">Waktu</label><input type="time" name="waktu" value="${data.waktu || ''}" required class="mt-1 block w-full p-2 border rounded-md"></div>
+                    <div><label class="block text-sm font-medium">Nama Lomba/Kegiatan</label><input type="text" name="lomba" value="${data.lomba || ''}" required class="mt-1 block w-full p-2 border rounded-md"></div>
+                    <div><label class="block text-sm font-medium">Lokasi</label><input type="text" name="lokasi" value="${data.lokasi || ''}" required class="mt-1 block w-full p-2 border rounded-md"></div>
+                    <div><label class="block text-sm font-medium">Penanggung Jawab</label><input type="text" name="pj" value="${data.pj || ''}" required class="mt-1 block w-full p-2 border rounded-md"></div>
+                `;
+            } else if (collectionName === 'panitia') { 
+                editModalForm.innerHTML = `
+                    <input type="hidden" name="id" value="${itemToEdit.id}">
+                    <div><label class="block text-sm font-medium">Nama</label><input type="text" name="nama" value="${data.nama || ''}" required class="mt-1 block w-full p-2 border rounded-md"></div>
+                    <div><label class="block text-sm font-medium">Jabatan</label><input type="text" name="jabatan" value="${data.jabatan || ''}" required class="mt-1 block w-full p-2 border rounded-md"></div>
+                    <div><label class="block text-sm font-medium">Kontak</label><input type="text" name="kontak" value="${data.kontak || ''}" required class="mt-1 block w-full p-2 border rounded-md"></div>
+                    <div><label class="block text-sm font-medium">URL Foto</label><input type="url" name="foto" value="${data.foto || ''}" required class="mt-1 block w-full p-2 border rounded-md"></div>
+                `;
+            } else if (collectionName === 'galeri') {
+                 editModalForm.innerHTML = `
+                    <input type="hidden" name="id" value="${itemToEdit.id}">
+                    <div>
+                        <label class="block text-sm font-medium">URL Tautan Galeri</label>
+                        <input type="url" name="url" value="${data.url || ''}" required class="mt-1 block w-full p-2 border rounded-md">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium">Judul/Deskripsi Tautan</label>
+                        <input type="text" name="alt" value="${data.alt || ''}" required class="mt-1 block w-full p-2 border rounded-md">
+                    </div>
+                `;
+            } else if (collectionName === 'timeline') {
+                editModalForm.innerHTML = `
+                    <input type="hidden" name="id" value="${itemToEdit.id}">
+                    <div><label class="block text-sm font-medium">Tanggal</label><input type="date" name="tanggal" value="${data.tanggal || ''}" required class="mt-1 block w-full p-2 border rounded-md"></div>
+                    <div><label class="block text-sm font-medium">Judul</label><input type="text" name="judul" value="${data.judul || ''}" required class="mt-1 block w-full p-2 border rounded-md"></div>
+                    <div><label class="block text-sm font-medium">Deskripsi</label><textarea name="deskripsi" rows="3" required class="mt-1 block w-full p-2 border rounded-md">${data.deskripsi || ''}</textarea></div>
+                `;
+            } else if (collectionName === 'peserta') {
+                const lombaCollectionRef = getCollectionRef('lomba');
+                getDocs(lombaCollectionRef).then(lombaSnapshot => {
+                    const lombaData = lombaSnapshot.docs.map(docLomba => ({ id: docLomba.id, ...docLomba.data() }));
+                    
+                    let lombaCheckboxesHTML = '<label class="block text-sm font-medium text-gray-700 mb-1">Lomba yang Diikuti</label><div class="max-h-40 overflow-y-auto border p-2 rounded">';
+                    lombaData.forEach(l => {
+                        const isChecked = Array.isArray(data.lomba) && data.lomba.includes(l.nama);
+                        lombaCheckboxesHTML += `
+                            <div class="flex items-center">
+                                <input id="editLomba-${l.id}" name="editLombaPeserta" type="checkbox" value="${l.nama}" ${isChecked ? 'checked' : ''} class="h-4 w-4 text-red-600 border-gray-300 rounded focus:ring-red-500">
+                                <label for="editLomba-${l.id}" class="ml-2 block text-sm text-gray-900">${l.nama}</label>
+                            </div>
+                        `;
+                    });
+                    lombaCheckboxesHTML += '</div>';
+
+                    editModalForm.innerHTML = `
+                        <input type="hidden" name="id" value="${itemToEdit.id}">
+                        <div><label class="block text-sm font-medium">Nama</label><input type="text" name="nama" value="${data.nama || ''}" required class="mt-1 block w-full p-2 border rounded-md"></div>
+                        <div>
+                            <label class="block text-sm font-medium">Kategori</label>
+                            <select name="kategori" required class="mt-1 block w-full p-2 border rounded-md">
+                                <option value="Anak-anak" ${data.kategori === 'Anak-anak' ? 'selected' : ''}>Anak-anak</option>
+                                <option value="Remaja" ${data.kategori === 'Remaja' ? 'selected' : ''}>Remaja</option>
+                                <option value="Dewasa" ${data.kategori === 'Dewasa' ? 'selected' : ''}>Dewasa</option>
+                            </select>
+                        </div>
+                        ${lombaCheckboxesHTML}
+                        <div>
+                            <label class="block text-sm font-medium">Status</label>
+                            <select name="status" required class="mt-1 block w-full p-2 border rounded-md">
+                                <option value="Terdaftar" ${data.status === 'Terdaftar' ? 'selected' : ''}>Terdaftar</option>
+                                <option value="Valid" ${data.status === 'Valid' ? 'selected' : ''}>Valid</option>
+                                <option value="Pending" ${data.status === 'Pending' ? 'selected' : ''}>Pending</option>
+                                <option value="Ditolak" ${data.status === 'Ditolak' ? 'selected' : ''}>Ditolak</option>
+                            </select>
+                        </div>
+                    `;
+                });
+            } else if (collectionName === 'panitia_logins') { 
+                 editModalForm.innerHTML = `
+                    <input type="hidden" name="id" value="${itemToEdit.id}">
+                    <div>
+                        <label class="block text-sm font-medium">Username</label>
+                        <input type="text" name="username" value="${data.username || ''}" required class="mt-1 block w-full p-2 border rounded-md">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium">Password Baru (kosongkan jika tidak ingin mengubah)</label>
+                        <input type="password" name="password" placeholder="Password Baru" class="mt-1 block w-full p-2 border rounded-md">
+                        <p class="text-xs text-gray-500 mt-1">Password disimpan sebagai teks biasa (tidak aman untuk produksi).</p>
+                    </div>
+                `;
+            }
+            else {
+                editModalForm.innerHTML = '<p class="text-red-500">Konfigurasi edit untuk koleksi ini belum diatur.</p>';
+            }
+            editModal.classList.remove('hidden');
+        }
+
+        cancelEditButton.addEventListener('click', () => {
+            editModal.classList.add('hidden');
+            itemToEdit = null;
+        });
+
+        saveEditButton.addEventListener('click', async () => {
+            if (!itemToEdit) return;
+            if (!isAdminLoggedIn) { 
+                showToast("Admin access required.", "error"); 
+                editModal.classList.add('hidden');
+                itemToEdit = null;
+                return; 
+            }
+
+            saveEditButton.disabled = true;
+            saveEditButton.textContent = "Menyimpan...";
+
+            const formData = new FormData(editModalForm);
+            let updatedData = Object.fromEntries(formData.entries());
+            delete updatedData.id; 
+
+            if (itemToEdit.collectionName === 'peserta') {
+                const selectedLomba = [];
+                editModalForm.querySelectorAll('input[name="editLombaPeserta"]:checked').forEach(cb => {
+                    selectedLomba.push(cb.value);
+                });
+                updatedData.lomba = selectedLomba;
+            }
+            
+            if (itemToEdit.collectionName === 'galeri') {
+                 updatedData = { alt: updatedData.alt, url: updatedData.url }; 
+            }
+
+            if (itemToEdit.collectionName === 'panitia_logins') {
+                if (updatedData.password) {
+                    // Password is new, keep it
+                } else {
+                    delete updatedData.password; 
+                }
+            }
+
+
+            try {
+                if (Object.keys(updatedData).length > 0) { 
+                     await updateDoc(getDocumentRef(itemToEdit.collectionName, itemToEdit.id), { ...updatedData, updatedAt: Timestamp.now() });
+                    showToast('Item berhasil diperbarui.', 'success');
+                } else {
+                    showToast('Tidak ada perubahan untuk disimpan.', 'info');
+                }
+                editModal.classList.add('hidden');
+                itemToEdit = null;
+            } catch (error) {
+                console.error("Error updating item:", error);
+                showToast('Gagal memperbarui item.', 'error');
+            } finally {
+                saveEditButton.disabled = false;
+                saveEditButton.textContent = "Simpan Perubahan";
+            }
+        });
+
+        async function initializeAppCore() {
+            try {
+                if (!auth.currentUser) { 
+                    await signInAnonymously(auth);
+                    console.log("Signed in anonymously for public data access.");
+                } else {
+                    console.log("Existing Firebase user session found:", auth.currentUser.uid);
+                }
+            } catch (error) {
+                console.error("Error during initial anonymous sign-in:", error);
+                if (error.code === 'auth/operation-not-allowed') {
+                    showToast("Login anonim tidak diizinkan. Beberapa fitur mungkin tidak berfungsi. Aktifkan di Firebase console.", "error", 7000);
+                }
+            }
+
+            showPage('home');
+            setupFirestoreListeners(); 
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+            appIdDisplay.textContent = appId; 
+        }
+
+        initializeAppCore();
+
+    </script>
+</body>
+</html>
